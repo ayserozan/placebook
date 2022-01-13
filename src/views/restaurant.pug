@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    h1 #{restaurant.name}
+
+    each menu in restaurant.menus
+        h3 #{menu.name}&nbsp,
+            br
+            p #{menu.menuInfo}
