@@ -1,19 +1,48 @@
-class User {
-  constructor(name, age) {
-    this.name = name
-    this.age = age
-    this.likedRestaurant = []
-    this.myOrders = []
-  }
+const mongoose = require('mongoose')
+// const autopopulate = require('mongoose-autopopulate')
 
-  likeRestaurant(restaurant) {
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    unique: true,
+    required: true,
+  },
+  age: {
+    type: Number,
+    required: true,
+  },
+  likedBy: [
+    {
+      /* type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
+      autopopulate: true, */
+    },
+  ],
+  myOrders: [
+    {
+      /* type: mongoose.Schema.Types.ObjectId,
+      ref: 'Order',
+      autopopulate: true, */
+    },
+  ],
+})
+class User {
+  async likeRestaurant(restaurant) {
     this.likedRestaurant.push(restaurant)
     restaurant.likedBy.push(this.name)
+
+    await restaurant.save()
+    await this.save()
   }
 
-  createOrder(order) {
+  async createOrder(order) {
     this.myOrders.push(order)
+
+    await this.save()
   }
 }
 
-module.exports = User
+userSchema.loadClass(User)
+// userSchema.plugin(autopopulate)
+
+module.exports = mongoose.model('User', userSchema)
