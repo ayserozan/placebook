@@ -8,8 +8,9 @@ class Menu {
     this.productInfos = []
   }
 
-  addProduct(productName, price) {
-    const newProduct = new Product(productName, price)
+  addProduct(productName, productPrice) {
+    const newProduct = new Product({ name: productName, price: productPrice })
+    newProduct.save()
     this.productNames.push(newProduct.name)
     this.productInfos.push(newProduct)
   }
