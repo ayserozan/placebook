@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    image: cicd102
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      #- MONGODB_USERNAME=root
+      #- MONGODB_PASSWORD=SN5GWkQzuie7dNZe
+      #- MONGODB_DATABASE=Cluster0
+      - MONGODB_CONNECTION_STRING=mongodb://mongo/cicd102
+    ports:
+      - 3000:3000
+      - 35729:35729
+    volumes:
+      - ./src:/app/src
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data
