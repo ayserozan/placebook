@@ -1,35 +1,35 @@
 const mongoose = require('mongoose')
-// const autopopulate = require('mongoose-autopopulate')
+const autopopulate = require('mongoose-autopopulate')
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    unique: true,
+    // unique: true,
     required: true,
   },
   age: {
     type: Number,
     required: true,
   },
-  likedBy: [
+  likeBy: [
     {
-      /* type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Restaurant',
-      autopopulate: true, */
+      autopopulate: true,
     },
   ],
   myOrders: [
     {
-      /* type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'Order',
-      autopopulate: true, */
+      autopopulate: true,
     },
   ],
 })
 class User {
   async likeRestaurant(restaurant) {
-    this.likedRestaurant.push(restaurant)
-    restaurant.likedBy.push(this.name)
+    await this.likedRestaurant.push(restaurant)
+    await restaurant.likedBy.push(this.name)
 
     await restaurant.save()
     await this.save()
@@ -43,6 +43,6 @@ class User {
 }
 
 userSchema.loadClass(User)
-// userSchema.plugin(autopopulate)
+userSchema.plugin(autopopulate)
 
 module.exports = mongoose.model('User', userSchema)
