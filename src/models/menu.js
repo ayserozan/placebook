@@ -1,18 +1,28 @@
-require('colors')
+const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
 const Product = require('./product')
 
+const menuSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    // unique: true,
+  },
+  product: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      autopopulate: true,
+    },
+  ],
+})
 class Menu {
-  constructor(name) {
-    this.name = name
-    this.productNames = []
-    this.productInfos = []
-  }
+  async addProduct(productName, productPrice) {
+    const newProduct = await Product.create({ name: productName, price: productPrice })
+    this.product.push(newProduct)
+    console.log(this)
 
-  addProduct(productName, productPrice) {
-    const newProduct = new Product({ name: productName, price: productPrice })
-    newProduct.save()
-    this.productNames.push(newProduct.name)
-    this.productInfos.push(newProduct)
+    // await newProduct.save()
+    await this.save()
   }
 
   get menuInfo() {
@@ -28,4 +38,7 @@ class Menu {
   }
 }
 
-module.exports = Menu
+menuSchema.loadClass(Menu)
+menuSchema.plugin(autopopulate)
+
+module.exports = mongoose.model('Menu', menuSchema)
