@@ -1,12 +1,10 @@
 const express = require('express')
+const User = require('../models/user')
 
 const router = express.Router()
 
-const User = require('../models/user')
-
 /* GET users listing. */
 router.get('/', async (req, res) => {
-  // const { name, age } = req.body
   const query = {}
 
   if (req.query.name) {
@@ -24,7 +22,9 @@ router.get('/initialize', async (req, res) => {
   const ayse = await User.create({ name: 'ayse', age: 32 })
   const tuna = await User.create({ name: 'tuna', age: 2 })
 
-  console.log(ayse, tuna)
+  await ayse.save()
+  await tuna.save()
+
   res.sendStatus(200)
 })
 
@@ -51,7 +51,8 @@ router.patch('/:id', async (req, res) => {
   let user
   if (req.body.name) {
     user = await User.findByIdAndUpdate(req.params.id, { name: req.body.name })
-  } else if (req.body.age) {
+  }
+  if (req.body.age) {
     user = await User.findByIdAndUpdate(req.params.id, { age: req.body.age })
   }
 
