@@ -1,22 +1,34 @@
-const Orderitem = require('./orderitem')
+const mongoose = require('mongoose')
+const autopopulate = require('mongoose-autopopulate')
+
+const orderSchema = new mongoose.Schema({
+  item: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product',
+      autopopulate: true,
+    },
+  ],
+  amount: 0,
+  quantity: [],
+})
 
 class Order {
-  constructor() {
-    this.item = []
-    this.amount = 0
-    this.quantity = []
+  async addProduct(product, quantity = 1) {
+    await this.item.push(product)
+    await this.quantity.push(quantity)
+
+    await this.save()
   }
 
-  addProduct(product, quantity = 1) {
-    this.item.push(product)
-    this.quantity.push(quantity)
-  }
-
-  calculateAmount() {
-    for (let i; i < this.item.length; i + 1) {
+  async calculateAmount() {
+    for (let i = 0; i < this.item.length; i += 1) {
       this.amount += this.item[i].price * this.quantity[i]
     }
+    await this.save()
   }
 }
 
-module.exports = Order
+orderSchema.loadClass(Order)
+orderSchema.plugin(autopopulate)
+module.exports = mongoose.model('Order', orderSchema)
