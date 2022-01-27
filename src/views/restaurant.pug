@@ -4,6 +4,7 @@ block content
     h1 #{restaurant.name}
 
     each menu in restaurant.menus
-        h3 #{menu.name}&nbsp,
+        h2 #{menu.name}&nbsp;:
             br
-            p #{menu.menuInfo}
+            each product in menu.product
+                p &emsp;#{product.name}
