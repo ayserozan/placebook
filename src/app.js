@@ -7,7 +7,8 @@ require('./database-connection')
 
 const indexRouter = require('./routes')
 const usersRouter = require('./routes/users')
-const restaurantRouter = require('./routes/restaurants')
+const restaurantsRouter = require('./routes/restaurants')
+const orderRouter = require('./routes/orders')
 
 const app = express()
 
@@ -23,7 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
-app.use('/restaurants', restaurantRouter)
+app.use('/restaurants', restaurantsRouter)
+app.use('/orders', orderRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
