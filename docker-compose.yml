@@ -1,5 +1,19 @@
 version: "3"
 services:
+  frontend:
+    image: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 8080
+    volumes:
+      - ./frontend/src:/app/src
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`placebook.localhost`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+
   backend:
     image: backend
     build:
@@ -10,8 +24,12 @@ services:
       #- MONGODB_PASSWORD=SN5GWkQzuie7dNZe
       #- MONGODB_DATABASE=Cluster0
       - MONGODB_CONNECTION_STRING=mongodb://mongo/placebook
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=(Host(`placebook.localhost`) && PathPrefix(`/api`))"
+      - "traefik.http.routers.backend.entrypoints=web"
     ports:
-      - 3000:3000
+      - 3000
       - 35729:35729
     volumes:
       - ./backend/src:/app/src
@@ -20,5 +38,15 @@ services:
     image: mongo
     ports:
       - 27017:27017
+  load-balancer:
+    image: traefik:v2.2
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
     volumes:
-      - ./data:/data
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
