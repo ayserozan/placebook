@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    h1 #{restaurant.name}
+
+    each menu in restaurant.menus
+        h2 #{menu.name}&nbsp;:
+            br
+            each product in menu.product
+                p &emsp;#{product.name}
