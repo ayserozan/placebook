@@ -53,7 +53,7 @@ router.get('/:restaurantId', async (req, res) => {
   const restaurant = await Restaurant.findById(req.params.restaurantId)
 
   if (restaurant) {
-    res.render('restaurant', { restaurant })
+    res.send(restaurant)
   } else res.sendStatus(404)
 })
 
