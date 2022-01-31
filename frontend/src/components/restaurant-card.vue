@@ -7,9 +7,9 @@ export default {
 
 <template lang="pug">
     .box
+        h2 Restaurant Information:
         h2 {{restaurant.name}}
-
-        h3 {{restaurant.cuisines.map( x => x).join(', ')}}
+        h3 {{restaurant.cuisines}}
 </template>
 
 <style lang="scss" scoped>
