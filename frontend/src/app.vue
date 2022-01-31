@@ -3,8 +3,7 @@
     div
     #nav
       img(src="@/assets/logo.png")
-      router-link(to="/") Home |&nbsp;
-      router-link(to="/about") About
+      router-link(to="/") Restaurant List
     <router-view />
 </template>
 
