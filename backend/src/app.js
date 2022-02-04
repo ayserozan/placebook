@@ -3,12 +3,19 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
-require('./database-connection')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
+const passport = require('passport')
+const User = require('./models/user')
+const mongooseConnection = require('./database-connection')
+
+const clientPromise = Promise.resolve(mongooseConnection.getClient())
 
 const indexRouter = require('./routes')
 const usersRouter = require('./routes/users')
 const restaurantsRouter = require('./routes/restaurants')
 const orderRouter = require('./routes/orders')
+const accountsRouter = require('./routes/accounts')
 
 const app = express()
 
@@ -20,11 +27,39 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+
+// session initialize
+app.use(
+  session({
+    secret: ['thisisasupersecuresecretsecret', 'whyweareneedsosupersecuresecretsecret'],
+    store: MongoStore.create({ clientPromise, stringify: false }),
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      path: '/api',
+    },
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(User.createStrategy())
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use('/api', (req, res, next) => {
+  req.session.viewCount = req.session.viewCount || 0
+  req.session.viewCount += 1
+  next()
+})
 
 app.use('/api/', indexRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/restaurants', restaurantsRouter)
+app.use('/api/account', accountsRouter)
 app.use('/api/orders', orderRouter)
 
 // catch 404 and forward to error handler

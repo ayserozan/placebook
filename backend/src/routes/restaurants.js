@@ -58,9 +58,11 @@ router.get('/:restaurantId', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { name } = req.body
+  const restaurantToCreate = {
+    name: req.body.name,
+  }
 
-  const restaurant = await Restaurant.create({ name })
+  const restaurant = await Restaurant.create(restaurantToCreate)
   res.send(restaurant)
 })
 

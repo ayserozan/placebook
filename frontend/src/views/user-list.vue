@@ -4,29 +4,29 @@ import Counter from "@/components/counter.vue";
 import { mapActions } from "vuex";
 
 export default {
-  name: "RestaurantList",
+  name: "UserList",
   components: { Counter },
   data() {
     return {
-      restaurants: [],
+      users: [],
     };
   },
 
   async created() {
     console.log(this.$route);
-    this.restaurants = await this.fetchRestaurants();
+    this.users = await this.fetchUsers();
   },
   methods: {
-    ...mapActions(["fetchRestaurants"]),
+    ...mapActions(["fetchUsers"]),
   },
 };
 </script>
 
 <template lang="pug">
   .home
-    h1 Restaurant List
-    div(v-for="restaurant in restaurants")
-      router-link(:to="`/restaurants/${restaurant._id}`") {{restaurant.name}}
+    h1 User List
+    div(v-for="user in users")
+      router-link(:to="`/users/${user._id}`") {{user.name}}
     Counter
 </template>
 

@@ -1,14 +1,17 @@
 <script>
 export default {
-  name: "RestaurantCard",
-  props: ["restaurant"],
+  name: "MenuCard",
+  props: ["menu"],
 };
 </script>
 
 <template lang="pug">
     .box
-        h2 {{restaurant.name}}
-        h3 {{restaurant.cuisines.map(cuisine => cuisine ).join(', ')}}
+        h2 {{menu.name}}
+
+        .product(v-for="product in menu.product")
+          h3 - {{product.name}}
+
 </template>
 
 <style lang="scss" scoped>
@@ -18,16 +21,15 @@ export default {
   border: 1px solid #333;
   background-image: linear-gradient(
     to bottom right,
-    rgb(255, 20, 147) 10%,
-    rgb(249, 105, 14)
+    rgb(245, 139, 195) 10%,
+    rgb(238, 160, 111)
   );
   border-radius: 0.3rem;
-  text-indent: 100px;
 
   h3 {
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 12px;
-    color: #aaf;
+    color: rgb(38, 38, 168);
   }
 }
 </style>

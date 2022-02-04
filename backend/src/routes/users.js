@@ -19,10 +19,15 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/initialize', async (req, res) => {
-  const ayse = await User.create({ name: 'ayse', age: 32 })
-  const tuna = await User.create({ name: 'tuna', age: 2 })
+  /*  const ayse = await User.create({ name: 'ayse', age: 32 })
+  const tuna = await User.create({ name: 'tuna', age: 2 }) */
 
+  const ayse = new User({ name: 'ayse', age: 32, email: 'ayse@gmx.com' })
+  await ayse.setPassword('test')
   await ayse.save()
+
+  const tuna = new User({ name: 'tuna', age: 2, email: 'tuna@gmx.com' })
+  await tuna.setPassword('test')
   await tuna.save()
 
   res.sendStatus(200)
@@ -36,9 +41,12 @@ router.get('/:userId', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  const { name, age } = req.body
+  const userToCreate = {
+    name: req.body.name,
+    age: req.body.age,
+  }
 
-  const user = await User.create({ name, age })
+  const user = await User.create(userToCreate)
   res.send(user)
 })
 
