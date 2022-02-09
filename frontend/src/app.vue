@@ -1,10 +1,14 @@
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "App",
   async created() {
     console.log((await axios.get("/api/account/session")).data);
+  },
+  computed: {
+    ...mapState(["user"]),
   },
 };
 </script>
@@ -13,27 +17,30 @@ export default {
   #app
     div
     #nav
+      .logo
         router-link(to= '/')
-          img(src="@/assets/logo.png")
-        .search
-          input(type="text" class="searchTerm" placeholder="Search for food, cuisine or restaurant.")
-          button(type="submit" class="searchButton")
-            img(src="https://img.icons8.com/color/search")
-        .box
-          router-link(to="/restaurants") Restaurant List
-        .box
-          router-link(to='/login') Login
-        .box
-          router-link(to='/register') Register
+          img(src="@/assets/logo3.png")
+      .search
+        input(type="text" class="searchTerm" placeholder="Search for food, cuisine or restaurant.")
+        button(type="submit" class="searchButton")
+          img(src="https://img.icons8.com/color/search")
+      .box
+        router-link(to="/restaurants") Restaurant List
+      .box(v-if='!user')
+        router-link(to='/login') Login
+
+      .box(v-if='!user')
+        router-link(to='/register') Register
+      .box
+        router-link(to='/logout') Logout
     div
     #section
-      .box
-        .firstBox
-          h4 MY FOOD BASKET
-        .secondBox
-          div
-            img(src="https://img.icons8.com/080808/shopping-basket")
-            span Your basket is empty.
+      .firstBox
+        h4 MY FOOD BASKET
+      .secondBox
+        div
+          img(src="https://img.icons8.com/080808/shopping-basket")
+          span Your basket is empty.
     #aside
       .box
         router-view
@@ -48,35 +55,37 @@ export default {
 }
 
 #nav {
-  text-align: right;
   background-image: linear-gradient(
     to bottom right,
     rgb(252, 6, 137) 20%,
     rgb(249, 105, 14)
   );
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    text-align: left;
-    &.router-link-exact-active {
-      color: #42b983;
+  .box {
+    display: inline-flex;
+    vertical-align: top;
+    margin-top: 0.5rem;
+    float: right;
+    text-align: center;
+    padding: 1rem;
+    a {
+      font-weight: bold;
+      text-decoration: none;
+      color: rgb(248, 236, 246);
+      &.router-link-exact-active {
+        color: #0f0b07;
+      }
     }
   }
-  img {
-    padding-right: 70rem;
-    text-align: left;
-    float: left;
-  }
-  .box {
-    border: 1px solid #333;
-    border-radius: 0.3rem;
-    width: 150px;
-    height: 30px;
-    text-align: center;
+  .logo {
+    display: inline-flex;
   }
   .search {
+    display: inline-flex;
     width: 30%;
-    display: flex;
+    vertical-align: top;
+    padding-left: 20rem;
+    padding-top: 1rem;
+    text-align: center;
     .searchTerm {
       width: 100%;
       border: 1px solid #727070;
@@ -120,28 +129,28 @@ export default {
   margin: 0 1.5%;
   width: 20%;
   height: 100%;
-  .box {
-    .firstBox {
-      margin-top: 2rem;
-      border: 1px solid #333;
-      background-image: linear-gradient(
-        to bottom right,
-        rgb(255, 20, 147) 10%,
-        rgb(249, 105, 14)
-      );
+  .firstBox {
+    margin-top: 2rem;
+    border: 1px solid #333;
+    background-image: linear-gradient(
+      to bottom right,
+      rgb(255, 20, 147) 10%,
+      rgb(249, 105, 14)
+    );
+  }
+  .secondBox {
+    border: 1px solid #333;
+    background-image: gray;
+    min-height: 10rem;
+    padding-top: 2rem;
+    img {
+      padding: 1rem;
+      display: inline-flex;
     }
-    .secondBox {
-      border: 1px solid #333;
-      background-image: gray;
-      min-height: 10rem;
-      padding-top: 2rem;
-      img {
-        float: left;
-        padding: 1rem;
-      }
-      span {
-        float: center;
-      }
+    span {
+      display: inline-flex;
+      vertical-align: top;
+      padding-top: 2.5rem;
     }
   }
 }

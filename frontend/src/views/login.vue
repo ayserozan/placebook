@@ -35,39 +35,54 @@ export default {
     form(@submit="submitLogin")
       h1 Log in to your account
       #email-content
-        div
-          label(for="email") Email:&nbsp;
-        div
           input(v-model="email" id="email" type="email" placeholder="Your email" required)
+          label(for='email') Email
       #password-content
-        div
-          label(for="password") Password:&nbsp;
-        div
-          input(v-model="password" id="password" type="password" placeholder="Your password" required)
+           input(v-model="password" id="password" type="password" placeholder="Your password" required)
+           label(for="password") Password
       input(type="submit" text="Log in")
     div(v-if="backendError") {{ backendError }}
-    div Don't have an account yet? <router-link to="/register">Register</router-link>
+    div Don't have an account yet?&nbsp;<router-link to="/register"> Register</router-link>
 </template>
 
 <style lang="scss" scoped>
 .login {
   display: block;
-  margin: 1rem 0;
   text-align: center;
-  margin-left: 23rem;
+  margin-left: 20rem;
   margin-right: 20rem;
   width: 20rem;
   height: 300px;
+
+  input {
+    position: relative;
+    width: 18rem;
+    border-radius: 0.3rem;
+    border-color: rgb(185, 182, 182);
+    height: 2.5rem;
+    text-align: center;
+    background: orange;
+  }
   div {
+    width: 15rem;
+    height: 3rem;
+    display: flex;
+    margin: 0.5rem;
+    position: relative;
+    font-size: 10px;
     label {
-      float: left;
-      width: 100px;
+      position: absolute;
+      background-color: white;
+      font-size: 0.6rem;
       text-align: left;
-      padding-top: 10px;
+      left: 1rem;
+      top: -0.3rem;
     }
     input {
-      float: right;
-      padding-top: 10px;
+      position: absolute;
+      border-color: rgb(185, 182, 182);
+      text-align: left;
+      background: white;
     }
   }
 }

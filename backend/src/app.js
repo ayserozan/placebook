@@ -10,6 +10,7 @@ const User = require('./models/user')
 const mongooseConnection = require('./database-connection')
 
 const clientPromise = Promise.resolve(mongooseConnection.getClient())
+const socketService = require('./socket-service')
 
 const indexRouter = require('./routes')
 const usersRouter = require('./routes/users')
@@ -18,6 +19,8 @@ const orderRouter = require('./routes/orders')
 const accountsRouter = require('./routes/accounts')
 
 const app = express()
+
+app.set('io', socketService)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

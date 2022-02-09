@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import RestaurantList from "../views/restaurant-list.vue";
 import UserList from "../views/user-list.vue";
+import Profile from "../views/profile.vue";
 import Login from "../views/login.vue";
 import Register from "../views/register.vue";
 
@@ -51,7 +52,7 @@ export default function init(store) {
       {
         path: "/profile",
         name: "profile",
-        component: UserList,
+        component: Profile,
         beforeEnter(to, from, next) {
           if (!store.state.user) return next("/login");
           return next();
