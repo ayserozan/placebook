@@ -6,10 +6,13 @@ const logger = require('morgan')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const passport = require('passport')
+const mongoose = require('mongoose')
+const cors = require('cors')
 const User = require('./models/user')
-const mongooseConnection = require('./database-connection')
+require('./database-connection')
 
-const clientPromise = Promise.resolve(mongooseConnection.getClient())
+// const clientPromise = Promise.resolve(mongooseConnection.getClient())
+const clientPromise = mongoose.connection.asPromise().then(connection => connection.getClient())
 const socketService = require('./socket-service')
 
 const indexRouter = require('./routes')
@@ -19,6 +22,18 @@ const orderRouter = require('./routes/orders')
 const accountsRouter = require('./routes/accounts')
 
 const app = express()
+
+app.use(
+  cors({
+    // enables request from any domain, not safe, further add the only the domain you want
+    origin: true,
+    // origin: https://frontend-blablablabla.run.app/
+    // allows cookies
+    credentials: true,
+  })
+)
+
+app.set('trust proxy', 1)
 
 app.set('io', socketService)
 
@@ -39,6 +54,8 @@ app.use(
     cookie: {
       maxAge: 30 * 24 * 60 * 60 * 1000,
       path: '/api',
+      sameSite: process.env.NODE_ENV == 'production' ? 'none' : 'strict',
+      secure: process.env.NODE_ENV == 'production',
     },
   })
 )

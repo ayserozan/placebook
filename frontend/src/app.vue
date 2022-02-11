@@ -1,16 +1,23 @@
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import axios from 'axios'
+import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: "App",
+  name: 'App',
   async created() {
-    console.log((await axios.get("/api/account/session")).data);
+    console.log((await axios.get('/api/account/session')).data)
+  },
+  methods: {
+    ...mapActions(['logout']),
+    async doLogout() {
+      await this.logout()
+      this.$router.push('/logout')
+    },
   },
   computed: {
-    ...mapState(["user"]),
+    ...mapState(['user']),
   },
-};
+}
 </script>
 
 <template lang="pug">
@@ -26,10 +33,10 @@ export default {
           img(src="https://img.icons8.com/color/search")
       .box
         router-link(to="/restaurants") Restaurant List
-      .box(v-if='!user')
+      .box <!--(v-if='!user')-->
         router-link(to='/login') Login
 
-      .box(v-if='!user')
+      .box <!--(v-if='!user')-->
         router-link(to='/register') Register
       .box
         router-link(to='/logout') Logout
@@ -55,11 +62,7 @@ export default {
 }
 
 #nav {
-  background-image: linear-gradient(
-    to bottom right,
-    rgb(252, 6, 137) 20%,
-    rgb(249, 105, 14)
-  );
+  background-image: linear-gradient(to bottom right, rgb(252, 6, 137) 20%, rgb(249, 105, 14));
   .box {
     display: inline-flex;
     vertical-align: top;
@@ -132,11 +135,7 @@ export default {
   .firstBox {
     margin-top: 2rem;
     border: 1px solid #333;
-    background-image: linear-gradient(
-      to bottom right,
-      rgb(255, 20, 147) 10%,
-      rgb(249, 105, 14)
-    );
+    background-image: linear-gradient(to bottom right, rgb(255, 20, 147) 10%, rgb(249, 105, 14));
   }
   .secondBox {
     border: 1px solid #333;
