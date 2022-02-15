@@ -1,33 +1,33 @@
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
 export default {
-  name: "login",
+  name: 'login',
   data() {
     return {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
       backendError: null,
-    };
+    }
   },
   methods: {
-    ...mapActions(["login"]),
+    ...mapActions(['login']),
     async submitLogin(e) {
-      e.preventDefault();
+      e.preventDefault()
 
       try {
         await this.login({
           email: this.email,
           password: this.password,
-        });
+        })
 
-        this.$router.push("/profile");
+        this.$router.push('/profile')
       } catch (e) {
-        this.backendError = e.response.data.message;
+        this.backendError = e.response.data.message
       }
     },
   },
-};
+}
 </script>
 
 <template lang="pug">
@@ -40,49 +40,46 @@ export default {
       #password-content
            input(v-model="password" id="password" type="password" placeholder="Your password" required)
            label(for="password") Password
-      input(type="submit" text="Log in")
+      input(type="submit" value="Log in")
     div(v-if="backendError") {{ backendError }}
     div Don't have an account yet?&nbsp;<router-link to="/register"> Register</router-link>
 </template>
 
 <style lang="scss" scoped>
 .login {
-  display: block;
-  text-align: center;
-  margin-left: 20rem;
-  margin-right: 20rem;
   width: 20rem;
-  height: 300px;
-
+  height: auto;
+  text-align: center;
+  margin: auto;
+  div {
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 10px;
+    padding: 0.5rem;
+  }
   input {
     position: relative;
-    width: 18rem;
+    width: 19.5rem;
     border-radius: 0.3rem;
     border-color: rgb(185, 182, 182);
     height: 2.5rem;
-    text-align: center;
     background: orange;
+    margin-top: 0.5rem;
   }
-  div {
-    width: 15rem;
-    height: 3rem;
-    display: flex;
-    margin: 0.5rem;
+  #email-content,
+  #password-content {
     position: relative;
-    font-size: 10px;
+    margin-top: 0.5rem;
+    input {
+      background-color: whitesmoke;
+      width: 19rem;
+    }
     label {
       position: absolute;
       background-color: white;
-      font-size: 0.6rem;
       text-align: left;
       left: 1rem;
-      top: -0.3rem;
-    }
-    input {
-      position: absolute;
-      border-color: rgb(185, 182, 182);
-      text-align: left;
-      background: white;
+      top: 0.8rem;
     }
   }
 }
