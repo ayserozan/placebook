@@ -33,23 +33,25 @@ export default {
           img(src="https://img.icons8.com/color/search")
       .box
         router-link(to="/restaurants") Restaurant List
-      .box <!--(v-if='!user')-->
-        router-link(to='/login') Login
-
-      .box <!--(v-if='!user')-->
+      .box(v-if='!user')
         router-link(to='/register') Register
-      .box
+      .box(v-if='!user')
+        router-link(to='/login') Login
+      .box(v-if='user')
         router-link(to='/logout') Logout
     div
     #section
+      .thirdBox(v-if='user')
+        h4 {{user.name.toUpperCase()}}
       .firstBox
         h4 MY FOOD BASKET
       .secondBox
         div
           img(src="https://img.icons8.com/080808/shopping-basket")
           span Your basket is empty.
+
     #aside
-      .box
+      .asideOuterBox
         router-view
 </template>
 
@@ -63,6 +65,7 @@ export default {
 
 #nav {
   background-image: linear-gradient(to bottom right, rgb(252, 6, 137) 20%, rgb(249, 105, 14));
+
   .box {
     display: inline-flex;
     vertical-align: top;
@@ -132,6 +135,12 @@ export default {
   margin: 0 1.5%;
   width: 20%;
   height: 100%;
+  .thirdBox {
+    border: 1px solid #333;
+    background-image: linear-gradient(to bottom right, rgb(255, 20, 147) 10%, rgb(249, 105, 14));
+    margin-top: 2rem;
+    height: 50px;
+  }
   .firstBox {
     margin-top: 2rem;
     border: 1px solid #333;
@@ -158,7 +167,7 @@ export default {
   margin: 0 1.5%;
   width: 70%;
   height: 100%;
-  .box {
+  .asideOuterBox {
     margin-top: 2rem;
     border: 1px solid #333;
     border-radius: 0.3rem;
