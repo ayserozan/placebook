@@ -6,17 +6,18 @@ const router = express.Router()
 
 /* GET users listing. */
 router.get('/session', async (req, res) => {
-  res.send(req.sesion)
+  res.send(req.user)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const { name, age, email, password } = req.body
 
-  const user = new User({ name, age, email })
-  await user.setPassword(password)
-  await user.save()
-
-  return user
+  try {
+    const user = await User.register({ name, age, email }, password)
+    res.send(user)
+  } catch (e) {
+    next(e)
+  }
 })
 
 router.post('/session', passport.authenticate('local', { failWithError: true }), async (req, res) => {
