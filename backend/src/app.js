@@ -19,7 +19,7 @@ const indexRouter = require('./routes')
 const usersRouter = require('./routes/users')
 const restaurantsRouter = require('./routes/restaurants')
 const orderRouter = require('./routes/orders')
-const accountsRouter = require('./routes/accounts')
+const accountsRouter = require('./routes/account')
 
 const app = express()
 
