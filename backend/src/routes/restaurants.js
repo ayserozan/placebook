@@ -1,13 +1,18 @@
 const express = require('express')
 const Restaurant = require('../models/restaurant')
+const Menu = require('../models/menu')
+const Product = require('../models/product')
 
 const router = express.Router()
 
 router.get('/initialize', async (req, res) => {
   const kebabi = await Restaurant.create({ name: 'kebabi' })
   const samis = await Restaurant.create({ name: 'samis' })
+  await kebabi.addLogo('kebabi.png')
+  await samis.addLogo('samis_logo.png')
 
   await kebabi.describeCuisine(['Turkish', 'Arabian'])
+
   await samis.describeCuisine('Italian')
 
   await kebabi.createMenu('soups')
@@ -57,6 +62,28 @@ router.get('/:restaurantId', async (req, res) => {
   } else res.sendStatus(404)
 })
 
+router.get('/:restaurantId/menus', async (req, res) => {
+  const restaurant = await Restaurant.findById(req.params.restaurantId)
+  console.log(restaurant.menus)
+
+  if (restaurant.menus) {
+    res.send(restaurant.menus)
+  } else res.sendStatus(404)
+})
+
+router.get('/:restaurantId/menus/:menuId', async (req, res) => {
+  const menu = await Menu.findById(req.params.menuId)
+  if (menu) {
+    res.send(menu)
+  } else res.sendStatus(404)
+})
+
+router.get('/:restaurantId/menus/:menuId/:productId', async (req, res) => {
+  const product = await Product.findById(req.params.productId)
+  if (product) {
+    res.send(product)
+  } else res.sendStatus(404)
+})
 router.post('/', async (req, res) => {
   const restaurantToCreate = {
     name: req.body.name,
