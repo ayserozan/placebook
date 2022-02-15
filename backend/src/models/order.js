@@ -2,21 +2,41 @@ const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
 
 const orderSchema = new mongoose.Schema({
-  item: [
+  orderItems: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-      autopopulate: true,
+      item: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+        autopopulate: { maxDepth: 1 },
+      },
+      quantity: {
+        type: Number,
+        default: 1,
+        required: true,
+      },
     },
   ],
-  amount: 0,
-  quantity: [],
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    autopopulate: true,
+    required: true,
+  },
+  amount: {
+    type: Number,
+    default: 0,
+  },
 })
 
 class Order {
   async addProduct(product, quantity = 1) {
-    await this.item.push(product)
-    await this.quantity.push(quantity)
+    const currentItem = this.orderItems.find(orderItem => orderItem.id == product.id)
+    if (currentItem) {
+      currentItem.quantity += quantity
+    } else {
+      this.orderItems.push({ item: product, quantity })
+    }
 
     await this.save()
   }
