@@ -1,22 +1,22 @@
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
 export default {
-  name: "register",
+  name: 'register',
   data() {
     return {
-      name: "",
+      name: '',
       age: null,
-      email: "",
-      password: "",
+      email: '',
+      password: '',
 
       backendError: null,
-    };
+    }
   },
   methods: {
-    ...mapActions(["register"]),
+    ...mapActions(['register']),
     async submitLogin(e) {
-      e.preventDefault();
+      e.preventDefault()
 
       try {
         await this.register({
@@ -24,15 +24,15 @@ export default {
           age: this.age,
           email: this.email,
           password: this.password,
-        });
+        })
 
-        this.$router.push("/login");
+        this.$router.push('/login')
       } catch (e) {
-        this.backendError = e.response.data.message;
+        this.backendError = e.response.data.message
       }
     },
   },
-};
+}
 </script>
 
 <template lang="pug">
@@ -59,33 +59,33 @@ export default {
 
 <style lang="scss" scoped>
 .register {
-  display: block;
-  text-align: left;
-  margin-left: 20rem;
+  text-align: center;
+  margin: auto;
+  width: 20rem;
+  height: auto;
   div {
-    width: 18rem;
-    height: 2rem;
     text-align: center;
     font-size: 10px;
-    padding: 1rem;
-    left: 50%;
+    padding: 0.5rem;
+    position: relative;
     label {
-      position: relative;
+      position: absolute;
       background-color: white;
       font-size: 0.6rem;
-      left: -7.3rem;
-      top: -3.1rem;
-      height: 1rem;
+      left: 1rem;
+      top: 0.3rem;
+      height: auto;
     }
     input {
-      position: relative;
       height: 2.5rem;
-      width: 18rem;
+      width: 19rem;
       border-radius: 0.3rem;
+      background-color: whitesmoke;
     }
   }
   #submit-button {
     input {
+      width: 19.5rem;
       background-color: orange;
     }
   }
