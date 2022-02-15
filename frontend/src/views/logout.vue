@@ -8,6 +8,9 @@ export default {
       backendError: null,
     };
   },
+  mounted(){
+    this.logout()
+  },
   methods: {
     ...mapActions(["logout"]),
     async submitLogout(e) {
