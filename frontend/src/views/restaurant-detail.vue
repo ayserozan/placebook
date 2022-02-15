@@ -1,24 +1,24 @@
 <script>
-import RestaurantCard from "@/components/restaurant-card.vue";
-import MenuCard from "@/components/menu-card.vue";
-import Counter from "@/components/counter.vue";
-import { mapActions } from "vuex";
+import RestaurantCard from '@/components/restaurant-card.vue'
+import MenuCard from '@/components/menu-card.vue'
+import Counter from '@/components/counter.vue'
+import { mapActions } from 'vuex'
 
 export default {
-  name: "RestaurantDetail",
+  name: 'RestaurantDetail',
   components: { RestaurantCard, Counter, MenuCard },
   data() {
     return {
       restaurant: null,
-    };
+    }
   },
   async created() {
-    this.restaurant = await this.fetchRestaurant(this.$route.params.id);
+    this.restaurant = await this.fetchRestaurant(this.$route.params.id)
   },
   methods: {
-    ...mapActions(["fetchRestaurant"]),
+    ...mapActions(['fetchRestaurant']),
   },
-};
+}
 </script>
 
 <template lang="pug">
