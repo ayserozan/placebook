@@ -11,6 +11,7 @@ const restaurantSchema = new mongoose.Schema({
   },
   cuisines: [],
   likedBy: [],
+  logo: String,
   menus: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,6 +34,12 @@ class Restaurant {
         this.cuisines.push(newCuisine[i])
       }
     } else await this.cuisines.push(newCuisine)
+
+    await this.save()
+  }
+
+  async addLogo(logoName) {
+    this.logo = logoName
 
     await this.save()
   }
