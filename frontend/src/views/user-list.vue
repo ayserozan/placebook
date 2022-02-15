@@ -1,25 +1,25 @@
 <script>
 //import axios from "axios";
-import Counter from "@/components/counter.vue";
-import { mapActions } from "vuex";
+import Counter from '@/components/counter.vue'
+import { mapActions } from 'vuex'
 
 export default {
-  name: "UserList",
+  name: 'UserList',
   components: { Counter },
   data() {
     return {
       users: [],
-    };
+    }
   },
 
   async created() {
-    console.log(this.$route);
-    this.users = await this.fetchUsers();
+    console.log(this.$route)
+    this.users = await this.fetchUsers()
   },
   methods: {
-    ...mapActions(["fetchUsers"]),
+    ...mapActions(['fetchUsers']),
   },
-};
+}
 </script>
 
 <template lang="pug">
