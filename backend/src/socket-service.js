@@ -17,8 +17,20 @@ io.on('connect', socket => {
   socket.on('another response', cb => {
     cb('another api response')
   }) */
+  socket.on('join stream', streamId => {
+    socket.join(streamId)
+  })
+  socket.on('new message', (streamId, message) => {
+    socket.to(streamId).emit('new live stream message', message)
+  })
+  socket.on('go live', (userId, cb) => {
+    console.log(`${userId} is going live`)
 
-  socket.on('go live', cb => cb(true))
+    socket.broadcast.emit('new live stream', userId)
+    socket.join(userId)
+
+    cb(true)
+  })
 })
 
 module.exports = io
