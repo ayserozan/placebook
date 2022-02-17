@@ -2,12 +2,6 @@
 export default {
   name: 'RestaurantCard',
   props: ['restaurant'],
-  methods: {
-    getLogo(logo) {
-      console.log(logo)
-      return require(`@/assets/'${logo}`)
-    },
-  },
 }
 </script>
 
