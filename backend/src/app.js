@@ -13,7 +13,6 @@ require('./database-connection')
 
 // const clientPromise = Promise.resolve(mongooseConnection.getClient())
 const clientPromise = mongoose.connection.asPromise().then(connection => connection.getClient())
-const socketService = require('./socket-service')
 
 const indexRouter = require('./routes')
 const usersRouter = require('./routes/users')
@@ -34,8 +33,6 @@ app.use(
 )
 
 app.set('trust proxy', 1)
-
-app.set('io', socketService)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
