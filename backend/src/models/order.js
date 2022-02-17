@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true,
-        autopopulate: { maxDepth: 1 },
+        autopopulate: { maxDepth: 5 },
       },
       quantity: {
         type: Number,
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema({
 })
 
 class Order {
-  async addProduct(product, quantity = 1) {
+  /* async addProduct(product, quantity = 1) {
     const currentItem = this.orderItems.find(orderItem => orderItem.id == product.id)
     if (currentItem) {
       currentItem.quantity += quantity
@@ -39,11 +39,11 @@ class Order {
     }
 
     await this.save()
-  }
+  } */
 
   async calculateAmount() {
-    for (let i = 0; i < this.item.length; i += 1) {
-      this.amount += this.item[i].price * this.quantity[i]
+    for (let i = 0; i < this.orderItems.length; i += 1) {
+      this.amount += this.orderItems[i].item.price * this.orderItems[i].quantity
     }
     await this.save()
   }
