@@ -22,7 +22,6 @@ export default {
 
 <template lang="pug">
   #app
-    div
     #nav
       .logo
         router-link(to= '/')
