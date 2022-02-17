@@ -20,7 +20,7 @@ app.set('port', port)
  */
 
 const server = http.createServer(app)
-app.set('io').attach(server)
+// app.set('io').attach(server)
 
 /**
  * Listen on provided port, on all network interfaces.
