@@ -13,10 +13,10 @@ export default {
   },
   async created() {
     this.users = await this.fetchUsers()
-    //await this.createOrder({ orderItems: [] })
+    await this.createEmptyOrder()
   },
   methods: {
-    ...mapActions(['fetchUsers']),
+    ...mapActions(['fetchUsers', 'createEmptyOrder']),
   },
   computed: {
     ...mapState(['user']),
