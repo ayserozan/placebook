@@ -30,8 +30,8 @@ const orderSchema = new mongoose.Schema({
 })
 
 class Order {
-  /* async addProduct(product, quantity = 1) {
-    const currentItem = this.orderItems.find(orderItem => orderItem.id == product.id)
+  async addProduct(product, quantity = 1) {
+    const currentItem = this.orderItems.find(orderItem => orderItem.item.id == product.id)
     if (currentItem) {
       currentItem.quantity += quantity
     } else {
@@ -39,7 +39,7 @@ class Order {
     }
 
     await this.save()
-  } */
+  }
 
   async calculateAmount() {
     for (let i = 0; i < this.orderItems.length; i += 1) {
