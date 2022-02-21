@@ -17,8 +17,9 @@ export default {
 .box {
   background-image: linear-gradient(to bottom right, rgb(255, 20, 147) 10%, rgb(249, 105, 14));
   display: inline-flex;
-  width: 97%;
+  width: 95%;
   margin-left: 1rem;
+  margin-right: 1rem;
   border: 1px solid #333;
   h2 {
     text-indent: 1rem;
