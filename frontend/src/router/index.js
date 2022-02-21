@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import RestaurantList from '../views/restaurant-list.vue'
+import RestaurantDetail from '../views/restaurant-detail.vue'
 import UserList from '../views/user-list.vue'
 import Profile from '../views/profile.vue'
 import Login from '../views/login.vue'
@@ -22,12 +23,12 @@ export default function init(store) {
       {
         path: '/restaurants',
         name: 'RestaurantList',
-        component: RestaurantList,
+        component: RestaurantList, //() => import('../views/restaurant-list.vue'),
       },
       {
         path: '/restaurants/:id',
         name: 'RestaurantDetail',
-        component: () => import(/* webpackChunkName: "about" */ '../views/restaurant-detail.vue'),
+        component: RestaurantDetail, //() => import(/* webpackChunkName: "about" */ '../views/restaurant-detail.vue'),
       },
       {
         path: '/register',
