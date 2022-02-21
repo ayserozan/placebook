@@ -6,7 +6,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'RestaurantDetail',
-  components: { RestaurantCard, Counter, MenuCard },
+  components: { Counter, MenuCard },
   data() {
     return {
       restaurant: null,
@@ -23,8 +23,6 @@ export default {
 
 <template lang="pug">
     .about
-      h1 This is a restaurant detail
-      RestaurantCard(:restaurant="restaurant" v-if="restaurant")
       h1 Menus
       MenuCard(v-for="menu in restaurant.menus" :menu="menu")
       Counter
