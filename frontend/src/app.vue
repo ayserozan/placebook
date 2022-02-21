@@ -7,6 +7,7 @@ export default {
   async created() {
     console.log((await axios.get('/api/account/session')).data)
   },
+
   methods: {
     ...mapActions(['logout']),
     async doLogout() {
@@ -15,7 +16,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['user']),
+    ...mapState(['user', 'addProductToOrder', 'products', 'order']),
   },
 }
 </script>
@@ -26,10 +27,6 @@ export default {
       .logo
         router-link(to= '/')
           img(src="@/assets/logo3.png")
-      .search
-        input(type="text" class="searchTerm" placeholder="Search for food, cuisine or restaurant.")
-        button(type="submit" class="searchButton")
-          img(src="https://img.icons8.com/color/search")
       .box
         router-link(to="/restaurants") Restaurant List
       .box(v-if='!user')
@@ -45,9 +42,21 @@ export default {
       .firstBox
         h4 MY FOOD BASKET
       .secondBox
-        div
-          img(src="https://img.icons8.com/080808/shopping-basket")
-          span Your basket is empty.
+        img(src="https://img.icons8.com/080808/shopping-basket")
+        span(v-if='!addProductToOrder') Your basket is empty.
+        div(v-else)
+          div(v-for="orderItem in order.orderItems")
+            table(style='width:100%', border='1')
+              tr
+                td(style='width:60%; text-align: left;') {{orderItem.item.name}}
+                td(style='width:20%') {{orderItem.quantity}}
+                td(style='width:20%') {{orderItem.item.price}}
+          table(style='width:100%', border='1' )
+            tr
+              td(style='font-weight:bold; width:80%; text-align: left;') Total
+              td(style='width:20%') {{order.amount}}
+          button(style='width: 80%; background: greenyellow;') Pay Now
+
 
     #aside
       .asideOuterBox
@@ -84,49 +93,6 @@ export default {
   .logo {
     display: inline-flex;
   }
-  .search {
-    display: inline-flex;
-    width: 30%;
-    vertical-align: top;
-    padding-left: 20rem;
-    padding-top: 1rem;
-    text-align: center;
-    .searchTerm {
-      width: 100%;
-      border: 1px solid #727070;
-      border-right: none;
-      padding: 5px;
-      height: 20px;
-      border-radius: 5px 0 0 5px;
-      outline: none;
-      color: #9dbfaf;
-    }
-    .searchTerm:focus {
-      color: #727070;
-    }
-    .searchButton {
-      width: 40px;
-      height: 32px;
-      border: 1px solid #727070;
-      background: #b9def0;
-      text-align: center;
-      color: #fff;
-      border-radius: 0 5px 5px 0;
-      cursor: pointer;
-      font-size: 20px;
-    }
-    img {
-      width: 20px;
-      height: 20px;
-    }
-    wrap {
-      width: 30%;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
 }
 #section {
   text-align: center;
@@ -158,6 +124,9 @@ export default {
       display: inline-flex;
       vertical-align: top;
       padding-top: 2.5rem;
+    }
+    #itemList {
+      text-align: center;
     }
   }
 }
