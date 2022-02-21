@@ -1,21 +1,12 @@
 <script>
 import axios from 'axios'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'MenuCard',
   props: ['menu'],
-  mounted: {
-    createEmptyOrder(user) {
-      const userId = user._id
-      axios.post('/api/orders', { orderItems: { item: product._id, quantity: 1 }, userId })
-    },
-  },
   methods: {
-    createNewOrder(product, user) {
-      const userId = user._id
-      axios.post('/api/orders', { orderItems: { item: product._id, quantity: 1 }, userId })
-    },
+    ...mapActions(['addNewPRoduct']),
   },
   computed: {
     ...mapState(['item', 'user']),
@@ -31,9 +22,7 @@ export default {
         h3 - {{product.name}}
         h3 {{product.price}} €
         div
-          <!--button(@click='deleteProduct') - -->
-          <!--button() {{item}} -->
-          button(@click='createNewOrder(product, user)') +
+          button(@click='addNewPRoduct(product)') +
 </template>
 
 <style lang="scss" scoped>
