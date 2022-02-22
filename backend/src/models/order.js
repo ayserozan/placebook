@@ -42,6 +42,7 @@ class Order {
   }
 
   async calculateAmount() {
+    this.amount = 0
     for (let i = 0; i < this.orderItems.length; i += 1) {
       this.amount += this.orderItems[i].item.price * this.orderItems[i].quantity
     }
