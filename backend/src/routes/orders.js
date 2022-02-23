@@ -1,6 +1,5 @@
 const express = require('express')
 const Order = require('../models/order')
-// const User = require('../models/user')
 const Product = require('../models/product')
 const User = require('../models/user')
 
@@ -33,7 +32,6 @@ router.post('/', async (req, res) => {
 
 router.patch('/:id', async (req, res) => {
   if (req.body.orderItems) {
-    console.log(req.body.orderItems)
     const order = await Order.findById(req.params.id)
     const product = await Product.findById(req.body.orderItems.item)
     await order.addProduct(product, 1)
